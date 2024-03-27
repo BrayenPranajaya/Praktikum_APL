@@ -2,17 +2,25 @@
 #include <string>
 using namespace std;
 
+// Struct untuk senjata
 struct Senjata {
     string nama;
 };
 
-Senjata senjata[5];
-int banyakSenjata = 0;
+// Struct untuk pemain, dengan senjata sebagai array of struct
+struct Pemain {
+    string username;
+    string password;
+    Senjata senjata[5]; // Array of struct untuk menyimpan senjata
+    int banyakSenjata;
+};
 
-bool checkLogin(string username, string password) {
+// Function untuk melakukan login
+bool checkLogin(const string& username, const string& password) {
     return (username == "Brayen" && password == "2309106128");
 }
 
+// Function untuk menampilkan menu
 void displayMenu() {
     cout << "Pilih menu: " << endl;
     cout << "1. Tambahkan nama senjata" << endl;
@@ -23,43 +31,47 @@ void displayMenu() {
     cout << "Pilih: ";
 }
 
-void tambahSenjata() {
-    if (banyakSenjata >= 5) {
+// Function untuk menambahkan senjata
+void tambahSenjata(Pemain& player) {
+    if (player.banyakSenjata >= 5) {
         cout << "List senjata sudah penuh" << endl;
     } else {
         cout << "Masukkan nama senjata: ";
-        cin >> senjata[banyakSenjata].nama;
-        banyakSenjata++;
+        cin >> player.senjata[player.banyakSenjata].nama;
+        player.banyakSenjata++;
     }
 }
 
-void lihatSenjata() {
-    if (banyakSenjata == 0) {
+// Function untuk menampilkan senjata
+void lihatSenjata(const Pemain& player) {
+    if (player.banyakSenjata == 0) {
         cout << "List senjata kosong" << endl;
     } else {
         cout << "List Nama Senjata pada Game Valorant:\n";
-        for (int i = 0; i < banyakSenjata; ++i) {
-            cout << i + 1 << ". " << senjata[i].nama << endl;
+        for (int i = 0; i < player.banyakSenjata; ++i) {
+            cout << i + 1 << ". " << player.senjata[i].nama << endl;
         }
     }
 }
 
-void ubahSenjata(int index) {
-    if (index > 0 && index <= banyakSenjata) {
+// Function untuk mengubah senjata
+void ubahSenjata(Pemain& player, int index) {
+    if (index > 0 && index <= player.banyakSenjata) {
         cout << "Masukkan nama senjata baru: ";
-        cin >> senjata[index - 1].nama;
+        cin >> player.senjata[index - 1].nama;
         cout << "Nama senjata berhasil diubah.\n";
     } else {
         cout << "Indeks tidak valid.\n";
     }
 }
 
-void hapusSenjata(int index) {
-    if (index > 0 && index <= banyakSenjata) {
-        for (int i = index - 1; i < banyakSenjata - 1; i++) {
-            senjata[i] = senjata[i + 1];
+// Function untuk menghapus senjata
+void hapusSenjata(Pemain& player, int index) {
+    if (index > 0 && index <= player.banyakSenjata) {
+        for (int i = index - 1; i < player.banyakSenjata - 1; i++) {
+            player.senjata[i] = player.senjata[i + 1];
         }
-        banyakSenjata--;
+        player.banyakSenjata--;
         cout << "Nama senjata berhasil dihapus.\n";
     } else {
         cout << "Indeks tidak valid.\n";
@@ -67,6 +79,11 @@ void hapusSenjata(int index) {
 }
 
 int main() {
+    Pemain player;
+    player.username = "Brayen";
+    player.password = "2309106128";
+    player.banyakSenjata = 0;
+
     string username, password;
     int pilih, index;
 
@@ -79,6 +96,8 @@ int main() {
 
         if (checkLogin(username, password)) {
             cout << "Login berhasil!\n";
+            player.username = username;
+            player.password = password;
             break;
         } else {
             cout << "Login gagal. Silakan coba lagi.\n";
@@ -98,32 +117,32 @@ int main() {
 
         switch (pilih) {
             case 1:
-                tambahSenjata();
+                tambahSenjata(player);
                 break;
 
             case 2:
-                lihatSenjata();
+                lihatSenjata(player);
                 break;
 
             case 3:
-                if (banyakSenjata == 0) {
+                if (player.banyakSenjata == 0) {
                     cout << "List senjata kosong" << endl;
                 } else {
-                    lihatSenjata();
+                    lihatSenjata(player);
                     cout << "Pilih nama senjata yang akan diubah: ";
                     cin >> index;
-                    ubahSenjata(index);
+                    ubahSenjata(player, index);
                 }
                 break;
 
             case 4:
-                if (banyakSenjata == 0) {
+                if (player.banyakSenjata == 0) {
                     cout << "List senjata kosong" << endl;
                 } else {
-                    lihatSenjata();
+                    lihatSenjata(player);
                     cout << "Pilih nama senjata yang akan dihapus: ";
                     cin >> index;
-                    hapusSenjata(index);
+                    hapusSenjata(player, index);
                 }
                 break;
 
