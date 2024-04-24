@@ -2,25 +2,21 @@
 #include <string>
 using namespace std;
 
-// Struct untuk senjata
 struct Senjata {
     string nama;
 };
 
-// Struct untuk pemain, dengan senjata sebagai array of struct
 struct Pemain {
     string username;
     string password;
-    Senjata senjata[5]; // Array of struct untuk menyimpan senjata
+    Senjata senjata[5]; 
     int banyakSenjata;
 };
 
-// Function untuk melakukan login
 bool checkLogin(const string& username, const string& password) {
     return (username == "Brayen" && password == "2309106128");
 }
 
-// Function untuk menampilkan menu
 void displayMenu() {
     cout << "Pilih menu: " << endl;
     cout << "1. Tambahkan nama senjata" << endl;
@@ -31,7 +27,6 @@ void displayMenu() {
     cout << "Pilih: ";
 }
 
-// Function untuk menambahkan senjata
 void tambahSenjata(Pemain& player) {
     if (player.banyakSenjata >= 5) {
         cout << "List senjata sudah penuh" << endl;
@@ -42,7 +37,6 @@ void tambahSenjata(Pemain& player) {
     }
 }
 
-// Function untuk menampilkan senjata
 void lihatSenjata(const Pemain& player) {
     if (player.banyakSenjata == 0) {
         cout << "List senjata kosong" << endl;
@@ -54,7 +48,6 @@ void lihatSenjata(const Pemain& player) {
     }
 }
 
-// Function untuk mengubah senjata
 void ubahSenjata(Pemain& player, int index) {
     if (index > 0 && index <= player.banyakSenjata) {
         cout << "Masukkan nama senjata baru: ";
@@ -65,7 +58,6 @@ void ubahSenjata(Pemain& player, int index) {
     }
 }
 
-// Function untuk menghapus senjata
 void hapusSenjata(Pemain& player, int index) {
     if (index > 0 && index <= player.banyakSenjata) {
         for (int i = index - 1; i < player.banyakSenjata - 1; i++) {
